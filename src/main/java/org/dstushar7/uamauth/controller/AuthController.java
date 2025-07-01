@@ -12,8 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
+    @GetMapping("/register")
+    public String register() {
+        return "Hello World";
+    }
+
     @GetMapping("/login")
     public String login() {
+        return "Hello World";
+    }
+
+    @GetMapping("/superadmin")
+    public String superadmin() {
+        return "Hello World";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "Hello World";
+    }
+
+    @GetMapping("/user")
+    public String user() {
         return "Hello World";
     }
 }
