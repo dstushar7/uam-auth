@@ -1,20 +1,20 @@
 package org.dstushar7.uamauth.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Entity
-@Table(name = "roles")
-@Data
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public enum Role {
+    SUPERADMIN("ROLE_SUPERADMIN"),
+    ADMIN( "ROLE_ADMIN"),
+    USER("ROLE_USER");
 
-    @Column(unique = true)
-    private String name; // Example: ROLE_ADMIN, ROLE_USER
+    private final String authority;
+
+    // Build hierarchy string for Spring Security
+    public static String buildHierarchyString(){
+        return "ROLE_SUPERADMIN > ROLE_ADMIN > ROLE_USER";
+    }
+
 }

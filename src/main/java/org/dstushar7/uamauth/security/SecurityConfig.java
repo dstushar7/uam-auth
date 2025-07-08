@@ -1,6 +1,6 @@
 package org.dstushar7.uamauth.security;
 
-import lombok.RequiredArgsConstructor;
+import org.dstushar7.uamauth.entity.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
