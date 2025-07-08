@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,12 +26,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain  springSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF since we're using JWT (stateless)
+            .csrf(AbstractHttpConfigurer::disable)                       // Disable CSRF since we're using JWT (stateless)
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/api/auth/**").permitAll() // Allow public access to auth endpoints
-                    .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN", "SUPERADMIN")
-                    .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "SUPERADMIN")
-                    .requestMatchers("/api/superadmin/**").hasRole("SUPERADMIN")
+                    .requestMatchers("/api/auth/**").permitAll()                    // Allow public access to auth endpoints
+                    .requestMatchers("/api/user/**").hasAnyRole("USER")     // USER, ADMIN, SUPERADMIN can access
+                    .requestMatchers("/api/admin/**").hasAnyRole("ADMIN")   // ADMIN, SUPERADMIN can access
+                    .requestMatchers("/api/superadmin/**").hasRole("SUPERADMIN")    // Only SUPERADMIN can access
                     .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -47,17 +48,12 @@ public class SecurityConfig {
     }
 
     @Bean
-
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
     @Bean
     public RoleHierarchy roleHierarchy() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_SUPERADMIN > ROLE_ADMIN > ROLE_USER";
-        roleHierarchy.setHierarchy(hierarchy);
-        return roleHierarchy;
+        return RoleHierarchyImpl.fromHierarchy(Role.buildHierarchyString());
     }
 }
