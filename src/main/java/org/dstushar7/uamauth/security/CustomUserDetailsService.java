@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
+
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -22,8 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)         // Ensures consistent read if user is being modified elsewhere
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: "+ username));
+                .orElseThrow(() -> {
+                    return new UsernameNotFoundException("User not found: "+ username);
+                });
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
