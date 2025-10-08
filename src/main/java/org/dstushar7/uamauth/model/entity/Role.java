@@ -1,4 +1,4 @@
-package org.dstushar7.uamauth.entity;
+package org.dstushar7.uamauth.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

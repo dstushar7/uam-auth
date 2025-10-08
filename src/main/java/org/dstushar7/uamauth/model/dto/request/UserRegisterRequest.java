@@ -1,4 +1,4 @@
-package org.dstushar7.uamauth.dto;
+package org.dstushar7.uamauth.model.dto.request;
 
 import lombok.Data;
 

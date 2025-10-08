@@ -1,4 +1,4 @@
-package org.dstushar7.uamauth.entity;
+package org.dstushar7.uamauth.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
